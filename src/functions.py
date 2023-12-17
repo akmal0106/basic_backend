@@ -1,13 +1,17 @@
 import json
 from datetime import datetime
+import os
 
-def load_transactions(file):
-    with open(file, 'r', encoding='utf-8') as f:
+json_file = [file for file in os.listdir() if os.path.splitext(file)[1] == '.json']
+file_name = ''.join(json_file)
+
+def load_transactions(file_name):
+    with open(file_name, 'r', encoding='utf-8') as f:
         text = json.load(f)
         return text
 
 def completed_transactions():
-    text = load_transactions('operations.json')
+    text = load_transactions(file_name)
     new_line = []
     for operation in text:
         state_info = operation.get('state')
@@ -40,3 +44,4 @@ def mask_card(card):
 def mask_account(account):
     private_account = (len(account[-6:-4]) * '*') + account[-4:]
     return private_account
+
